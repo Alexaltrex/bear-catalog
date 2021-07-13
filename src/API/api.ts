@@ -1,15 +1,9 @@
 import axios from "axios";
 
 export const instance = axios.create({
-    baseURL: 'https://api.punkapi.com/v2/',
-    //withCredentials: true,
+    baseURL: process.env.REACT_APP_BASE_URL,
 });
 
-export type ResponseTypeAPI<D = {}> = {
-    status: number
-    data: D
-    statusText: string
-    }
 
 
 
