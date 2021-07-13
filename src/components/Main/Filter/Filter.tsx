@@ -39,6 +39,7 @@ export const Filter: FC<{}> = () => {
                 aria-labelledby="range-slider"
                 getAriaValueText={valuetext}
             />
+
             <Button
                 variant='outlined'
                 onClick={onFilterHandler}

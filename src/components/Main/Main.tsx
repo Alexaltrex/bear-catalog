@@ -87,7 +87,7 @@ const useStyles = makeStyles((theme: Theme) =>
     createStyles({
         main: {
             position: 'relative',
-            backgroundColor: theme.palette.info.light,
+            //backgroundColor: theme.palette.info.light,
             height: '100%',
             boxSizing: 'border-box',
             padding: 10,
