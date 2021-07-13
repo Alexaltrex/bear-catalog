@@ -7,7 +7,8 @@ import {bearAPI} from "../../API/bear-api";
 const initialState = {
     isLoading: false,
     bearItems: [] as Array<BearItemType>,
-    filterByAbv: 'none' as FilterByAbvType,
+    abvMin: 0,
+    abvMax: 10,
     searchName: '',
     totalPageCount: 10,
     currentPage: 1,
@@ -22,8 +23,11 @@ const bearReducer = (state = initialState, action: BearActionsType): InitialStat
         case 'BEAR_CATALOG/SET_BEAR_ITEMS': {
             return {...state, bearItems: action.bearItems}
         }
-        case 'BEAR_CATALOG/SET_FILTER_BY_ABV': {
-            return {...state, filterByAbv: action.filterByAbv}
+        case 'BEAR_CATALOG/SET_ABV_MIN': {
+            return {...state, abvMin: action.abvMin}
+        }
+        case 'BEAR_CATALOG/SET_ABV_MAX': {
+            return {...state, abvMax: action.abvMax}
         }
         case 'BEAR_CATALOG/SET_SEARCH_NAME': {
             return {...state, searchName: action.searchName}
@@ -43,17 +47,18 @@ const bearReducer = (state = initialState, action: BearActionsType): InitialStat
 export const bearAC = {
     setIsLoading: (isLoading: boolean) => ({type: 'BEAR_CATALOG/SET_IS_LOADING', isLoading} as const),
     setBearItems: (bearItems: Array<BearItemType>) => ({type: 'BEAR_CATALOG/SET_BEAR_ITEMS', bearItems} as const),
-    setFilterByAbv: (filterByAbv: FilterByAbvType) => ({type: 'BEAR_CATALOG/SET_FILTER_BY_ABV', filterByAbv} as const),
+    setAbvMin: (abvMin: number) => ({type: 'BEAR_CATALOG/SET_ABV_MIN', abvMin} as const),
+    setAbvMax: (abvMax: number) => ({type: 'BEAR_CATALOG/SET_ABV_MAX', abvMax} as const),
     setSearchName: (searchName: string) => ({type: 'BEAR_CATALOG/SET_SEARCH_NAME', searchName} as const),
     setTotalPageCount: (totalPageCount: number) => ({type: 'BEAR_CATALOG/SET_TOTAL_PAGE_COUNT', totalPageCount} as const),
     setCurrentPage: (currentPage: number) => ({type: 'BEAR_CATALOG/SET_CURRENT_PAGE', currentPage} as const),
 };
 
 //================ THUNK CREATOR ==================
-export const getBearItems = (currentPage: number): ThunkType => async (dispatch) => {
+export const getBearItems = (currentPage: number, abvMin: number, abvMax: number): ThunkType => async (dispatch) => {
     try {
         dispatch(bearAC.setIsLoading(true));
-        const response = await bearAPI.getBearItems(currentPage);
+        const response = await bearAPI.getBearItems(currentPage, abvMin, abvMax);
         dispatch(bearAC.setBearItems(response));
     } catch (e) {
         console.error(e.message);
